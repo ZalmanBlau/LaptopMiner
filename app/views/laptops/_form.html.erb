@@ -1,0 +1,89 @@
+<%= form_tag('/laptops', method: "get") do %>
+  <div class="description">
+    <h3> <%= @questions[:price][:description] %> </h3>
+  </div>
+  <div class="form_field">
+    <div class="option">
+      <%= label_tag 'questions_price_a', @questions[:price][:options][0] %>
+      <%= radio_button_tag 'questions[price]', 'a' %>
+    <div>
+    <div class="option">
+      <%= label_tag 'questions_price_b', @questions[:price][:options][1] %>
+      <%= radio_button_tag 'questions[price]', 'b' %>
+    </div>
+    <div class="option">
+      <%= label_tag 'questions_price_c', @questions[:price][:options][2] %>
+      <%= radio_button_tag 'questions[price]', 'c' %>
+    </div>
+    <div class="option">
+      <%= label_tag 'questions_price_d', @questions[:price][:options][3] %>
+      <%= radio_button_tag 'questions[price]', 'd' %>
+    </div>
+  </div> 
+
+  <div class="description">
+    <h3> <%= @questions[:speed][:description] %> </h3>
+  </div>
+
+  <div class="form_field">
+    <div class="option">
+      <%= label_tag 'questions_speed_a', @questions[:speed][:options][0] %>
+      <%= radio_button_tag 'questions[speed]', 'a' %>
+    <div>
+
+    <div class="option">
+      <%= label_tag 'questions_speed_b', @questions[:speed][:options][1] %>
+      <%= radio_button_tag 'questions[speed]', 'b' %>
+    </div>
+
+    <div class="option">
+      <%= label_tag 'questions_speed_c', @questions[:speed][:options][2] %>
+      <%= radio_button_tag 'questions[speed]', 'c' %>
+    </div>
+  </div> 
+
+  <div class="description">
+    <h3> <%= @questions[:size][:description] %> </h3>
+  </div>
+
+  <div class="form_field">
+    <div class="option">
+      <%= label_tag 'questions_size_a', @questions[:size][:options][0] %>
+      <%= radio_button_tag 'questions[size]', 'a' %>
+    <div>
+
+    <div class="option">
+      <%= label_tag 'questions_size_b', @questions[:size][:options][1] %>
+      <%= radio_button_tag 'questions[size]', 'b' %>
+    </div>
+
+    <div class="option">
+      <%= label_tag 'questions_size_c', @questions[:size][:options][2] %>
+      <%= radio_button_tag 'questions[size]', 'c' %>
+    </div>
+  </div> 
+
+  <div class="description">
+    <h3> <%= @questions[:storage][:description] %> </h3>
+  </div>
+  <div class="form_field">
+    <div class="option">
+      <%= label_tag 'questions_storage_a', @questions[:storage][:options][0] %>
+      <%= radio_button_tag 'questions[storage]', 'a' %>
+    <div>
+
+    <div class="option">
+      <%= label_tag 'questions_storage_b', @questions[:storage][:options][1] %>
+      <%= radio_button_tag 'questions[storage]', 'b' %>
+    </div>
+
+    <div class="option">
+      <%= label_tag 'questions_storage_c', @questions[:storage][:options][2] %>
+      <%= radio_button_tag 'questions[storage]', 'c' %>
+    </div>
+  </div> 
+
+  <div class="actions">
+    <%= submit_tag 'Search!' %>
+  </div>
+<% end %>
