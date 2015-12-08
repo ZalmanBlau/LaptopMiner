@@ -127,43 +127,38 @@ class Waterfall
     end
   end
 
-  def total_pages
-    amazon_data["ItemSearchResponse"]["Items"]["TotalPages"].to_i
-  end
-
-  def narrow_search
-    if total_pages > 1 
-      binding.pry
-      min_price = search_terms[price][0]
-      max_price = search_terms[price][1]
-      if feature_indexes[:price] == 0 && max_price > min_price + 100
-        index = 0
-        while index < 3
-          @search_terms[:price][1] -= 50
-          amazon_fetcher
-          index += 1
-        end
-      else
-        unless @feature_indexes[:price] + 1 == features.size
-          @feature_indexes[:price] += 1 
-        end
-      end
-      narrow_search
-    end
+  # def narrow_search
+  #   if total_pages > 1 
+  #     binding.pry
+  #     min_price = search_terms[price][0]
+  #     max_price = search_terms[price][1]
+  #     if feature_indexes[:price] == 0 && max_price > min_price + 100
+  #       index = 0
+  #       while index < 3
+  #         @search_terms[:price][1] -= 50
+  #         amazon_fetcher
+  #         index += 1
+  #       end
+  #     else
+  #       unless @feature_indexes[:price] + 1 == features.size
+  #         @feature_indexes[:price] += 1 
+  #       end
+  #     end
+  #     narrow_search
+  #   end
   #widen search by $50 if narrowing went to far. 
-    if total_pages < 1 
-      while total_pages < 1
-        binding.pry
-        @search_terms[:price][1] += 50
-      end
-    end  
-  end
+  #   if total_pages < 1 
+  #     while total_pages < 1
+  #       binding.pry
+  #       @search_terms[:price][1] += 50
+  #     end
+  #   end  
+  # end
 
   def widen_search
     binding.pry
     i = 0
     while total_pages < 1 && i < 4
-      binding.pry
       feature_downgrade
       amazon_fetcher
       i += 1
@@ -172,43 +167,20 @@ class Waterfall
   end
 
 ######
+  def qualified_laptops
 
-  def amazon_fetcher
-    terms = search_terms
-    search_specs = {
-      keywords: "intel, #{terms[:processor].join(", ")}, #{terms[:ram].join(", ")}gb ram, #{terms[:storage].join(", ")}, #{terms[:size].join(", ")}inch",
-      min_price: terms[:price][0],
-      max_price: terms[:price][1]
-    }
-    @amazon_data = AmazonApi.call(search_specs)
   end
-
-  #Sorting products from most desirable (lowest cost as of this version)
-    #to least desirable (most expensive and invalid data).
-    #Note: items that cost less then $200 are usaully non matching, and will be placed
-    #last along with other invalids.
-    #*the number 400,000 is arbitrary, any non realisticly high number that can filter 
-    #the good from the bad will do. 
+  #Sorting products by most desirable attributes (lowest cost as of this version).
 
   def final_picks
-    all_products = []
-    amazon_data["ItemSearchResponse"]["Items"]["Item"].each do |product|
-      all_products << product
-    end
-    all_products.sort_by do |item| 
-      if item.is_a?(Hash)
-        price = item["OfferSummary"]["LowestNewPrice"]
-        price = price.nil? || price < 200 ? 400000 : price["Amount"].to_i 
-      else
-        400000
-      end
-    end
+    all_products = data  
+    all_products.sort_by {|item| item.price }
     all_products[-3..-1]
   end
 
   def fire_search
     set_feature_indexes
-    amazon_fetcher
+    qualified_laptops
     widen_search
     narrow_search
     final_picks

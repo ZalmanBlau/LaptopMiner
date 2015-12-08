@@ -42,46 +42,60 @@ data = JSON.parse(json)
 #information to store
 data["laptop_pages"].each do |page| 
   page["products"].each do |product| 
-
+    params = {}
     # 1. title
     # gsub for color
-    product["name"].gsub(/ - \D*$/, "")
-    # 2. brand
-    product["manufacturer"]
-    # 3. color
-    product["color"]
-    # 4. image link
-    product["largeFrontImage"]
-    # 5. url link
-    product["url"]
-    # 6. description
-    product["longDescription"]
-    # 7. price
-    product["regularPrice"]
-    # 8. ram
-    product["name"].match(/ ([^-]+)GB Memory (?:- [^-]+){2}$/)[1]
-    # 9. storage
-    product["driveCapacityGb"]
-    # 10. proccessor
-    product["name"].match(/^\w+ - [^-]+\w - ([^-]+) /)[1]
-    # 11. ghz
-    #not available
-    # 12. weight
-    product["weight"].gsub(/ pounds/, "")
-    # 13. battery
-    product["batteryLifeMin"]
-    # 14. screen size
-    product["screenSizeIn"]
-    # 15. model number
-    product["modelNumber"]
-    # 16. upc
-    product["upc"]
+    begin 
+        params[:name] = product["name"].gsub(/ - \D*$/, "")
+
+        # 2. brand
+        params[:brand] = product["manufacturer"]
+
+        # 4. image link
+        params[:image_url] = product["largeFrontImage"]
+
+        # 5. url link
+        params[:url] = product["url"]
+
+        # 6. description
+        params[:description] = product["longDescription"]
+
+        # 7. price
+        params[:price] = product["regularPrice"]
+        # 8. ram
+        params[:ram] = product["shortDescription"].match(/([^;]+)GB memory/)[1]
+        # 9. storage
+        params[:hard_drive_gb] = product["driveCapacityGb"]
+
+        # 10. proccessor
+        params[:proccessor] = product["shortDescription"].match(/details: (.+) processor/)[1]
+        # 13. screen size
+        params[:screen_size] = product["screenSizeIn"] 
+    rescue StandardError => e
+        next 
+    end
+    begin 
+        # 3. color
+            params[:color] = product["color"]
+        # 11. weight
+        params[:weight] = product["weight"].gsub(/ pounds/, "")
+        # 12. battery
+        params[:battery_life] = product["batteryLifeMin"]
+        
+        # 14. model number
+        params[:model_number] = product["modelNumber"]
+        # 15. upc
+        params[:upc] = product["upc"]
+    rescue
+    end
+
+    Laptop.create(params) 
   end
 end
+# class CreateLaptops < ActiveRecord::Migration
+#   def change
+#     create_table :laptops do |t|
 
-
-
-
-
-
-
+#     end
+#   end
+# end
