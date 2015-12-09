@@ -139,6 +139,7 @@ class Waterfall
 
 ######
   def qualified_laptops
+    s_terms = search_terms
     binding.pry
     query = "proccessor ~* '#{s_terms[:proccessor]}' AND ram >= {s_terms[:ram]} AND screen_size = #{s_terms[:size]} AND hard_drive_gb >= #{s_terms[:storage]} AND price <= #{s_terms[:price][1]}"
     laptops = Laptop.where(query)
