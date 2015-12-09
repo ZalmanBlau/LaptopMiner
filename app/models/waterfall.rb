@@ -105,6 +105,9 @@ class Waterfall
     }
   end
 
+  def total_results
+    @total_results
+  end
 
 ########
 
@@ -127,48 +130,20 @@ class Waterfall
     end
   end
 
-  # def narrow_search
-  #   if total_pages > 1 
-  #     binding.pry
-  #     min_price = search_terms[price][0]
-  #     max_price = search_terms[price][1]
-  #     if feature_indexes[:price] == 0 && max_price > min_price + 100
-  #       index = 0
-  #       while index < 3
-  #         @search_terms[:price][1] -= 50
-  #         amazon_fetcher
-  #         index += 1
-  #       end
-  #     else
-  #       unless @feature_indexes[:price] + 1 == features.size
-  #         @feature_indexes[:price] += 1 
-  #       end
-  #     end
-  #     narrow_search
-  #   end
-  #widen search by $50 if narrowing went to far. 
-  #   if total_pages < 1 
-  #     while total_pages < 1
-  #       binding.pry
-  #       @search_terms[:price][1] += 50
-  #     end
-  #   end  
-  # end
-
   def widen_search
-    binding.pry
-    i = 0
-    while total_pages < 1 && i < 4
+    while total_results <= 3
       feature_downgrade
-      amazon_fetcher
-      i += 1
+      qualified_laptops
     end
-    i < 4
   end
 
 ######
   def qualified_laptops
-    
+    binding.pry
+    query = "proccessor ~* '#{s_terms[:proccessor]}' AND ram ~* '{s_terms[:ram]}' AND screen_size ~* #{s_terms[:size]} AND hard_drive_gb ~* #{s_terms[:storage]} AND price <= #{s_terms[:price][1]}"
+    laptops = Laptop.where(query)
+    @total_results = laptops.size
+    laptops
   end
   #Sorting products by most desirable attributes (lowest cost as of this version).
 
@@ -182,7 +157,6 @@ class Waterfall
     set_feature_indexes
     qualified_laptops
     widen_search
-    narrow_search
     final_picks
   end
 
