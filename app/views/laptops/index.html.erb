@@ -1,5 +1,9 @@
 <h1>Results!</h1>
 
 <% @raw_data.each do |p|%>
-  <p> i </p>
+  <ul>
+  <% p.each do |key, value| %>
+    <li> <strong> key </strong><p> value </p> </li>
+  <% end %>
+  </ul>
 <% end %>
