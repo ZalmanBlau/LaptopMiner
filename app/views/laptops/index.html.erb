@@ -1,13 +1,20 @@
 <h1>Results!</h1>
 
 <% @raw_data.each do |p|%>
-  <% begin %>
-  <ul>
-  <% p.each do |key, value| %>
-    <li> <strong> key </strong><p> value </p> </li>
-  <% end %>
-  </ul>
-  <% rescue StandardError => e %>
-  <%= e.message  %>
-  <% end %>
+  <img src="<%= p.image_url%>">
+  <a href="<%= p.url %>"> 
+    <h3> <%= p.name %></h3>
+    <p> <strong> $<%=p.price %> </strong> </p> <br>
+    <p> <%= p.description %></p>
+    <h5> Technical Specs: </h5>
+    <ul> 
+      <li> <p> <strong>RAM</strong><%= p.ram %></p></li>
+      <li> <p> <strong>Hard Drive</strong><%= p.hard_drive_gb %>GB</p></li>
+      <li> <p> <strong>Processor</strong><%= p.proccessor %></p></li>
+      <li> <p> <strong>Weight</strong><%= p.weight %></p></li>
+      <li> <p> <strong>Battery Life</strong><%= p.battery_life %></p> Minutes</li>
+      <li> <p> <strong>Screen Dimensions</strong><%= p.screen_size %> Inches</p></li>
+    </ul>
+  </a>
+  <hr>
 <% end %>
