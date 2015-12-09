@@ -131,7 +131,7 @@ class Waterfall
   end
 
   def widen_search
-    rounds 
+    rounds = 0
     while total_results == 0 && rounds <= 3
       feature_downgrade
       qualified_laptops
