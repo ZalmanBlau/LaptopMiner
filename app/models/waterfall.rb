@@ -131,9 +131,11 @@ class Waterfall
   end
 
   def widen_search
-    while total_results <= 3
+    rounds 
+    while total_results == 0 && rounds <= 3
       feature_downgrade
       qualified_laptops
+      rounds += 1
     end
   end
 
@@ -141,7 +143,7 @@ class Waterfall
   def qualified_laptops
     s_terms = search_terms
     binding.pry
-    query = "proccessor ~* '#{s_terms[:processor][0]}' AND ram >= #{s_terms[:ram][0]} AND screen_size = #{s_terms[:size][0]} AND hard_drive_gb >= #{s_terms[:storage][0]} AND price <= #{s_terms[:price][1]}"
+    query = "proccessor ~* '#{s_terms[:processor][0]}' AND ram >= #{s_terms[:ram][0]} AND screen_size >= #{s_terms[:size][0]} AND screen_size <= #{s_terms[:size][0] + 1} AND hard_drive_gb >= #{s_terms[:storage][0]} AND price <= #{s_terms[:price][1]}"
     laptops = Laptop.where(query)
     @total_results = laptops.size
     laptops
@@ -149,9 +151,14 @@ class Waterfall
   #Sorting products by most desirable attributes (lowest cost as of this version).
 
   def final_picks
+    top_products = []
     all_products = data  
     all_products.sort_by {|item| item.price }
-    all_products[-3..-1]
+    if all_products.size >= 3
+      top_products = all_products[-3..-1]
+    else 
+      top_products = all_products[-(all_products.size)..-1]
+    end
   end
 
   def fire_search
