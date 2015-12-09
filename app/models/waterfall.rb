@@ -88,7 +88,7 @@ class Waterfall
   def features
     {
       price: [[200, 450], [450, 700], [700, 1500], [1500, 3500]],
-      processor: [["i7"], ["i5"], ["2", "Celeron", "Pentium"]],
+      processor: [["i7"], ["i5"], ["i3", "2", "Celeron", "Pentium"]],
       ram: [[8], [6], [4]],
       size: [[17], [15.6], [13]],
       storage: [[1], [750], [500], [320]]
@@ -141,7 +141,7 @@ class Waterfall
   def qualified_laptops
     s_terms = search_terms
     binding.pry
-    query = "proccessor ~* '#{s_terms[:proccessor]}' AND ram >= {s_terms[:ram]} AND screen_size = #{s_terms[:size]} AND hard_drive_gb >= #{s_terms[:storage]} AND price <= #{s_terms[:price][1]}"
+    query = "proccessor ~* '#{s_terms[:processor][0]}' AND ram >= #{s_terms[:ram][0]} AND screen_size = #{s_terms[:size][0]} AND hard_drive_gb >= #{s_terms[:storage][0]} AND price <= #{s_terms[:price][1]}"
     laptops = Laptop.where(query)
     @total_results = laptops.size
     laptops
