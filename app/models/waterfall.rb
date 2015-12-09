@@ -168,7 +168,7 @@ class Waterfall
 
 ######
   def qualified_laptops
-
+    
   end
   #Sorting products by most desirable attributes (lowest cost as of this version).
 
