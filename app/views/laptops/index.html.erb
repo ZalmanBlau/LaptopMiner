@@ -1,3 +1,20 @@
+<style type="text/css">
+  body {
+ background-color: whitesmoke;
+}
+.cont {
+    padding: 70px;
+    background-color: white;
+    width: 1000px;
+    margin: auto;
+}
+img {
+      margin: 50px auto;
+    display: block;
+}
+</style>
+<div class="cont">
+  
 <h1>Results!</h1>
 
 <% @raw_data.each do |p|%>
@@ -6,12 +23,12 @@
     <h3> <%= p.name %></h3>
   </a>
   <p> <strong> $<%=p.price %> </strong> </p> <br>
-  <p> <%= p.description %></p>
+  <p> <%= p.description.html_safe %></p>
   <h5> Technical Specs: </h5>
   <ul> 
     <li> <p> <strong>RAM </strong><%= p.ram %> GB</p></li>
     <li> <p> <strong>Hard Drive </strong><%= p.hard_drive_gb %> GB</p></li>
-    <li> <p> <strong>Processor </strong><%= p.proccessor %></p></li>
+    <li> <p> <strong>Processor </strong><%= p.proccessor.html_safe %></p></li>
     <li> <p> <strong>Weight </strong><%= p.weight %> lb</p></li>
     <% if p.battery_life %>
       <li> <p> <strong>Battery Life </strong><%= p.battery_life %> Minutes</p> </li>
@@ -20,3 +37,4 @@
   </ul>
   <hr>
 <% end %>
+</div>
