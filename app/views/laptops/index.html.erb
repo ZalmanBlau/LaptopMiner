@@ -12,6 +12,12 @@ img {
       margin: 50px auto;
     display: block;
 }
+.specs {
+    margin-top: 22px;
+    font-weight: 500;
+    font-size: 20px;
+}
+
 </style>
 <div class="cont">
   
@@ -24,7 +30,7 @@ img {
   </a>
   <p> <strong> $<%=p.price %> </strong> </p> <br>
   <p> <%= p.description.html_safe %></p>
-  <h5> Technical Specs: </h5>
+  <h5 class="specs"> Technical Specs: </h5>
   <ul> 
     <li> <p> <strong>RAM </strong><%= p.ram %> GB</p></li>
     <li> <p> <strong>Hard Drive </strong><%= p.hard_drive_gb %> GB</p></li>
